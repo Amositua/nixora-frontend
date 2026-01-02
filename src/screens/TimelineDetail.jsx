@@ -40,7 +40,7 @@ export default function LoanTimelineDetail({ loanId, setCurrentScreen }) {
   const [tempYear, setTempYear] = useState(currentMonth.getFullYear());
   const [tempMonth, setTempMonth] = useState(currentMonth.getMonth());
 
-   const [showTrelloModal, setShowTrelloModal] = useState(false);
+  const [showTrelloModal, setShowTrelloModal] = useState(false);
 
   useEffect(() => {
     if (loanId) {
@@ -352,7 +352,7 @@ export default function LoanTimelineDetail({ loanId, setCurrentScreen }) {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -374,63 +374,68 @@ export default function LoanTimelineDetail({ loanId, setCurrentScreen }) {
         </div>
 
         {/* View Toggle and Sync Buttons */}
-        <div className="flex items-center gap-3">
-          {/* View Toggle */}
-          <div className="flex items-center bg-gray-100 rounded-lg p-1">
-            <button
-              onClick={() => setView("timeline")}
-              className={`px-2 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                view === "timeline"
-                  ? "bg-white text-blue-700 shadow-sm"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
+        <div className="flex flex-col gap-3">
+
+          <div className="flex items-center space-x-4">
+            {/* Sync to Calendar Button */}
+            <Button
+              variant="primary"
+              onClick={handleSyncToCalendar}
+              disabled={syncing}
             >
-              <Clock className="w-4 h-4" />
-              Timeline
-            </button>
-            <button
-              onClick={() => setView("calendar")}
-              className={`px-2 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
-                view === "calendar"
-                  ? "bg-white text-blue-700 shadow-sm"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-            >
-              <CalendarDays className="w-4 h-4" />
-              Calendar
-            </button>
+              {syncing ? (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  Syncing...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Sync to Google Calendar
+                </>
+              )}
+            </Button>
+
+            {/* Sync to Trello Button */}
+            <Button variant="outline" onClick={() => setShowTrelloModal(true)}>
+              <svg
+                className="w-4 h-4 mr-2"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.656 1.343 3 3 3h18c1.656 0 3-1.344 3-3V3c0-1.657-1.344-3-3-3zM10.44 18.18c0 .795-.645 1.44-1.44 1.44H4.56c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.645-1.44 1.44-1.44H9c.795 0 1.44.645 1.44 1.44v13.62zm10.44-6c0 .794-.645 1.44-1.44 1.44H15c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.646-1.44 1.44-1.44h4.44c.795 0 1.44.645 1.44 1.44v7.62z" />
+              </svg>
+              Sync to Trello
+            </Button>
           </div>
 
-          {/* Sync to Calendar Button */}
-          <Button
-            variant="primary"
-            onClick={handleSyncToCalendar}
-            disabled={syncing}
-          >
-            {syncing ? (
-              <>
-                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                Syncing...
-              </>
-            ) : (
-              <>
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Sync to Google Calendar
-              </>
-            )}
-          </Button>
-
-          {/* Sync to Trello Button */}
-          <Button variant="outline" onClick={() => setShowTrelloModal(true)}>
-            <svg
-              className="w-4 h-4 mr-2"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.656 1.343 3 3 3h18c1.656 0 3-1.344 3-3V3c0-1.657-1.344-3-3-3zM10.44 18.18c0 .795-.645 1.44-1.44 1.44H4.56c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.645-1.44 1.44-1.44H9c.795 0 1.44.645 1.44 1.44v13.62zm10.44-6c0 .794-.645 1.44-1.44 1.44H15c-.795 0-1.44-.646-1.44-1.44V4.56c0-.795.646-1.44 1.44-1.44h4.44c.795 0 1.44.645 1.44 1.44v7.62z" />
-            </svg>
-            Sync to Trello
-          </Button>
+          {/* View Toggle */}
+          <div className="flex items-center self-end">
+            <div className="flex items-center bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setView("timeline")}
+                className={`px-2 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                  view === "timeline"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                <Clock className="w-4 h-4" />
+                Timeline
+              </button>
+              <button
+                onClick={() => setView("calendar")}
+                className={`px-2 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2 ${
+                  view === "calendar"
+                    ? "bg-white text-blue-700 shadow-sm"
+                    : "text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                <CalendarDays className="w-4 h-4" />
+                Calendar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
