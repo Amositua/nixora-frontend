@@ -121,6 +121,9 @@ export default function Layout({
             <div className="absolute bottom-full left-4 right-4 mb-2 bg-white rounded-lg border border-gray-200 shadow-lg overflow-hidden z-50">
               <button
                 onClick={() => {
+                  if (currentScreen === "settings"){
+                    setCurrentScreen("dashboard");
+                  }
                   setCurrentScreen("settings");
                   setShowUserMenu(false);
                 }}
