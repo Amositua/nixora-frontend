@@ -81,7 +81,7 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
   const handleTrelloCallback = async (trelloToken) => {
     setLoading(true);
     setError(null);
-
+    console.log("Received Trello token:", trelloToken);
     try {
       const token = localStorage.getItem("accessToken");
       const res = await fetch(
@@ -128,6 +128,7 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
       if (!res.ok) throw new Error("Failed to fetch Trello boards");
 
       const data = await res.json();
+      console.log("Fetched boards:", data);
       setBoards(data);
     } catch (err) {
       setError(err.message);
@@ -141,7 +142,7 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
     setSelectedBoard(boardId);
     setLoading(true);
     setError(null);
-
+    console.log("Selected board:", boardId);
     try {
       const token = localStorage.getItem("accessToken");
       const res = await fetch(
@@ -377,8 +378,8 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {boards.map((board) => (
                   <button
-                    key={board.boardId}
-                    onClick={() => handleSelectBoard(board.boardId)}
+                    key={board.id}
+                    onClick={() => handleSelectBoard(board.id)}
                     disabled={loading}
                     className="w-full p-4 border border-gray-200 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors text-left"
                   >
