@@ -31,6 +31,24 @@ function App() {
   const [selectedLoanId, setSelectedLoanId] = useState(null);
 
   useEffect(() => {
+  // Check if this is the popup window with a token
+  const hash = window.location.hash;
+  
+  if (hash.includes("token=") && window.opener) {
+    const token = hash.split("token=")[1];
+    
+    // Send token to parent window
+    window.opener.postMessage(
+      { type: 'TRELLO_TOKEN', token },
+      window.location.origin
+    );
+    
+    // Close the popup
+    window.close();
+  }
+}, []);
+
+  useEffect(() => {
     const session = authService.getSession();
 
     if (session) {

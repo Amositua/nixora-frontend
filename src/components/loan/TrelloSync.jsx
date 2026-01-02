@@ -5,7 +5,7 @@ import Badge from "../ui/Badge";
 import { CheckCircle, AlertCircle, Loader, ExternalLink } from "lucide-react";
 
 export default function TrelloSyncModal({ loanId, loan, onClose }) {
-  const [step, setStep] = useState(1); // 1-6 for each step
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [authUrl, setAuthUrl] = useState(null);
@@ -27,14 +27,22 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
   const [syncComplete, setSyncComplete] = useState(false);
 
   useEffect(() => {
-    // Check if returning from Trello auth
-    const hash = window.location.hash;
-    if (hash.includes("token=")) {
-      const token = hash.split("token=")[1];
-      handleTrelloCallback(token);
-      // Clear the hash
-      window.history.replaceState(null, null, " ");
-    }
+    // Listen for messages from the popup window
+    const handleMessage = (event) => {
+      // Verify the origin for security
+      if (event.origin !== window.location.origin) return;
+      
+      if (event.data.type === 'TRELLO_TOKEN') {
+        const token = event.data.token;
+        handleTrelloCallback(token);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
 
   // Step 1: Connect to Trello
@@ -201,7 +209,6 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
       let completed = 0;
 
       for (const field of selectedFields) {
-        // Get value from loan data
         let value = null;
 
         if (field === "facilityAgent") {
@@ -222,7 +229,6 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
           value = loan?.loanData?.interest?.benchmark;
         }
 
-        // Only push if value exists
         if (value) {
           const res = await fetch(
             "https://nixora-image-latest.onrender.com/api/trello/push-field",
@@ -285,7 +291,6 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
               ✕
             </button>
           </div>
-          {/* Progress Steps */}
           <div className="mt-4 flex items-center justify-between">
             {[1, 2, 3, 4, 5, 6].map((s) => (
               <div key={s} className="flex items-center">
@@ -311,7 +316,6 @@ export default function TrelloSyncModal({ loanId, loan, onClose }) {
         </CardHeader>
 
         <CardContent>
-          {/* Error Display */}
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-red-600" />
