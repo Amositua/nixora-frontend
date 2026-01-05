@@ -336,18 +336,18 @@ function App() {
     <Route path="/settings" element={<Settings setCurrentScreen={setCurrentScreen}/>} />
     
     {/* <Route path="/privacy" element={<Policy />} /> */}
-    
-
+    <Route path="/shared-documents" element={<SharedDocuments
+          setCurrentScreen={setCurrentScreen}
+          setSelectedLoanId={setSelectedLoanId}
+        />}
+/>
     {/* Fallback */}
     <Route path="*" element={<Navigate to="/dashboard" />} />
   </Routes>
 
-  {currentScreen === "shared-documents" && (
-        <SharedDocuments
-          setCurrentScreen={setCurrentScreen}
-          setSelectedLoanId={setSelectedLoanId}
-        />
-      )}
+  {/* {currentScreen === "shared-documents" && (
+        
+      )} */}
 
       {/* Collaboration Accept Modal */}
       {showInviteModal && inviteToken && (
