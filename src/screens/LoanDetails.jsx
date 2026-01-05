@@ -60,7 +60,8 @@ const [deleting, setDeleting] = useState(false);
 
   if (!loan) return <p className="p-6">Loan not found</p>;
 
-  const { parties, facility, interest, fees, repayment, prepayment, utilisation, covenants, eventsOfDefault, representations, 
+  const { parties, facility, interest, fees, repayment, prepayment, utilisation, covenants, eventsOfDefault, 
+    // representations, 
     // transfers,
      governingLaw } = loan.loanData;
 
@@ -252,7 +253,7 @@ const [deleting, setDeleting] = useState(false);
 
         </LoanSection>
 
-        <div className="border-t border-gray-200 my-4"></div>
+        {/* <div className="border-t border-gray-200 my-4"></div>
 
         <LoanSection title="Representations">
             <LoanDetailItem label="Binding Obligations" value={representations.bindingObligations} />
@@ -264,7 +265,7 @@ const [deleting, setDeleting] = useState(false);
 <LoanDetailItem label="Environmental" value={representations.environmental} />
 <LoanDetailItem label="Tax" value={representations.tax} />
 
-        </LoanSection>
+        </LoanSection> */}
 
         <div className="border-t border-gray-200 my-4"></div>
 
