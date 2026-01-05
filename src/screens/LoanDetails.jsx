@@ -6,7 +6,7 @@ import Button from "../components/ui/Button";
 import LoanSection from "../components/loan/loanSection";
 import LoanDetailItem from "../components/loan/loanDetailItem";
 
-export default function LoanDetails({ loanId, setCurrentScreen }) {
+export default function LoanDetails({ loanId, setSelectedLoanId, setCurrentScreen }) {
   const [loan, setLoan] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -115,6 +115,17 @@ const [deleting, setDeleting] = useState(false);
           Back
         </Button>
       </div>
+
+      <Button
+  variant="outline"
+  onClick={() => {
+    setSelectedLoanId(loan.loanId);
+    setCurrentScreen("edit-loan");
+  }}
+>
+  {/* <Edit2 className="w-4 h-4 mr-2" /> */}
+  Edit Document
+</Button>
 
       <Card className="p-6 space-y-8">
         <LoanSection title="Parties">

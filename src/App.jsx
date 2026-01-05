@@ -23,12 +23,71 @@ import LoanTimeline from "./screens/Timeline";
 import LoanTimelineDetail from "./screens/TimelineDetail";
 import LoanList from "./screens/time";
 
+import LoanFieldEditor from "./screens/loanEditScreen";
+
 function App() {
   const [currentScreen, setCurrentScreen] = useState("landing");
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [selectedLoanId, setSelectedLoanId] = useState(null);
+
+  // Handle collaboration invite token from URL
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [inviteToken, setInviteToken] = useState(null);
+  useEffect(() => {
+    const path = window.location.pathname;
+    const inviteMatch = path.match(/\/invite\/([a-f0-9-]+)/i);
+    
+    if (inviteMatch) {
+      const token = inviteMatch[1];
+      
+      // Check if user is authenticated
+      const authToken = localStorage.getItem("accessToken");
+      
+      if (authToken) {
+        // User is logged in, show invite modal
+        setInviteToken(token);
+        setShowInviteModal(true);
+      } else {
+        // User not logged in, store token and redirect to sign in
+        sessionStorage.setItem("pending_invite_token", token);
+        setCurrentScreen("signin");
+      }
+      
+      // Clean URL
+      window.history.replaceState({}, "", "/");
+    }
+  }, []);
+
+
+   // Check for pending invite after sign in
+  useEffect(() => {
+    if (currentScreen === "dashboard") {
+      const pendingToken = sessionStorage.getItem("pending_invite_token");
+      if (pendingToken) {
+        setInviteToken(pendingToken);
+        setShowInviteModal(true);
+        sessionStorage.removeItem("pending_invite_token");
+      }
+    }
+  }, [currentScreen]);
+
+  const handleAcceptInvitation = (data) => {
+    setShowInviteModal(false);
+    setInviteToken(null);
+    
+    // Navigate to shared documents
+    setCurrentScreen("shared-documents");
+    
+    // Show success message
+    // You can add a toast notification here
+  };
+
+  const handleDeclineInvitation = () => {
+    setShowInviteModal(false);
+    setInviteToken(null);
+  };
 
   useEffect(() => {
   // Check if this is the popup window with a token
@@ -225,6 +284,7 @@ function App() {
       element={
         <LoanDetails
           loanId={selectedLoanId}
+          setSelectedLoanId={setSelectedLoanId}
           setCurrentScreen={setCurrentScreen}
         />
       }
@@ -235,6 +295,16 @@ function App() {
       element={
         <QueryBuilder
           loanData={LoanData}
+          setCurrentScreen={setCurrentScreen}
+        />
+      }
+    />
+
+    <Route
+      path="/edit-loan"
+      element={
+        <LoanFieldEditor
+          loanId={selectedLoanId}
           setCurrentScreen={setCurrentScreen}
         />
       }
@@ -268,6 +338,22 @@ function App() {
     {/* Fallback */}
     <Route path="*" element={<Navigate to="/dashboard" />} />
   </Routes>
+
+  {currentScreen === "shared-documents" && (
+        <SharedDocuments
+          setCurrentScreen={setCurrentScreen}
+          setSelectedLoanId={setSelectedLoanId}
+        />
+      )}
+
+      {/* Collaboration Accept Modal */}
+      {showInviteModal && inviteToken && (
+        <CollaborationAcceptModal
+          token={inviteToken}
+          onAccept={handleAcceptInvitation}
+          onDecline={handleDeclineInvitation}
+        />
+      )}
     </Layout>
   );
 }
