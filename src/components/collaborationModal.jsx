@@ -25,6 +25,7 @@ export function CollaborationAcceptModal({ token, onAccept, onDecline }) {
     console.log("Accepting invitation with token:", token);
     try {
       const authToken = localStorage.getItem("accessToken");
+      console.log("Using auth token:", authToken);
       const res = await fetch(
         "https://nixora-image-latest.onrender.com/api/collaboration/accept",
         {
