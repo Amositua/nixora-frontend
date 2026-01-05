@@ -25,6 +25,9 @@ import LoanList from "./screens/time";
 
 import LoanFieldEditor from "./screens/loanEditScreen";
 
+import { CollaborationAcceptModal } from "./components/collaborationModal.jsx";
+import { SharedDocuments } from "./screens/ShareDocumentList.jsx";
+
 function App() {
   const [currentScreen, setCurrentScreen] = useState("landing");
   const [session, setSession] = useState(null);
