@@ -14,13 +14,15 @@ import { FileText, CheckCircle, X } from "lucide-react";
 import { Loader } from "lucide-react";
 
 export function CollaborationAcceptModal({ token, onAccept, onDecline }) {
+    console.log("Rendering CollaborationAcceptModal with token:", token);
   const [accepting, setAccepting] = useState(false);
   const [error, setError] = useState(null);
 
   const handleAccept = async () => {
     setAccepting(true);
     setError(null);
-
+    
+    console.log("Accepting invitation with token:", token);
     try {
       const authToken = localStorage.getItem("accessToken");
       const res = await fetch(
