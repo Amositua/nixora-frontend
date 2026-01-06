@@ -14,10 +14,10 @@ export const registerDevice = async (fcmToken) => {
       body: JSON.stringify({ fcmToken }),
     }
   );
-
+ console.log(res);
   if (!res.ok) {
     throw new Error("Failed to register device");
   }
-
+ 
   return res.json();
 };

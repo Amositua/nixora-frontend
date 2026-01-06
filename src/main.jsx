@@ -18,6 +18,8 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+navigator.serviceWorker.ready.then(r => console.log("pushManager:", r.pushManager));
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
