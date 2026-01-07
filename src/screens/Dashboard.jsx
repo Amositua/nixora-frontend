@@ -1,6 +1,8 @@
 // 
 import { useEffect } from 'react';
 import { TrendingUp, DollarSign, Calendar, CheckCircle, AlertTriangle } from 'lucide-react';
+import { registerForPushNotifications } from '../utils/registerPushNotification';
+import { registerDevice } from '../api/register-device';
 
 // Card Components
 const Card = ({ children, className = '' }) => (
@@ -140,9 +142,9 @@ export default function Dashboard() {
   useEffect(() => {
     const setupNotifications = async () => {
       try {
-        // const fcmToken = await registerForPushNotifications();
-        // console.log("FcmToken:", fcmToken)
-        // await registerDevice(fcmToken);
+        const fcmToken = await registerForPushNotifications();
+        console.log("FcmToken:", fcmToken)
+        await registerDevice(fcmToken);
         console.log("Push notifications enabled");
       } catch (err) {
         console.warn("Push notifications not enabled:", err?.message);

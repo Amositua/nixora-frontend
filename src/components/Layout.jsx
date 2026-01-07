@@ -44,7 +44,7 @@ export default function Layout({
     { id: "compare-loans", label: "Compare Loans", icon: BarChart3 },
     { id: "reports", label: "Reports", icon: FileText },
     { id: "timeline", label: "Loan Timelines", icon: Calendar },
-    { id: "loan-chat", label: "Ask AI", icon: MessageCircle },
+    { id: "loan-chat-selector", label: "Ask AI", icon: MessageCircle },
     // { id: "notifications", label: "Notifications", icon: Bell },
     { id: "collaborate", label: "collaborate and Edit", icon: Edit3 },
     { id: "settings", label: "Settings", icon: Settings },

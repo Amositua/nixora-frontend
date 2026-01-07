@@ -33,6 +33,7 @@ import { registerForPushNotifications } from "./utils/registerPushNotification.j
 import { registerDevice } from "./api/register-device.js";
 
 import LoanDocumentChat from "./screens/LoanDocumentChat.jsx";
+import ChatLoanSelector from "./screens/ChatLoanSelector.jsx";
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState("landing");
@@ -420,12 +421,18 @@ function App() {
           }
         /> */}
 
-        <Route path="/loan-chat" element={ <LoanDocumentChat
+        <Route path="/loan-chat-selector" element={ 
+          <ChatLoanSelector
+        setCurrentScreen={setCurrentScreen}
+        setSelectedLoanId={setSelectedLoanId}
+      />} />
+
+<Route path="/loan-chat" element={ <LoanDocumentChat
         loanId={selectedLoanId}
         loan={selectedLoan}
         setCurrentScreen={setCurrentScreen}
       />} />
-
+      
         <Route
           path="/collaborate"
           element={
