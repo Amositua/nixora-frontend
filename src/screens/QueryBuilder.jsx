@@ -425,8 +425,8 @@ export default function QueryBuilder({ setCurrentScreen, setSelectedLoanId }) {
                       "Borrower",
                       "Facility Agent",
                       "Facility Type",
-                      "Interest Period",
-                      "Benchmark",
+                      // "Interest Period",
+                      // "Benchmark",
                       "Governing Law",
                       "Actions",
                     ].map((h) => (
@@ -449,12 +449,12 @@ export default function QueryBuilder({ setCurrentScreen, setSelectedLoanId }) {
                       <td className="px-4 py-3 text-sm">
                         {loan.facilityType}
                       </td>
-                      <td className="px-4 py-3 text-sm">
+                      {/* <td className="px-4 py-3 text-sm">
                         {loan.interestPeriod}
                       </td>
                       <td className="px-4 py-3">
                         <Badge variant="info">{loan.benchmark}</Badge>
-                      </td>
+                      </td> */}
                       <td className="px-4 py-3 text-sm">
                         {loan.governingLaw}
                       </td>

@@ -64,9 +64,9 @@ export default function SignIn({ setCurrentScreen, onAuthSuccess }) {
 
         <div className="bg-white rounded-2xl border border-gray-200 shadow-xl p-8">
           <div className="flex items-center justify-center mb-8">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center">
+            {/* <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-teal-500 rounded-xl flex items-center justify-center"> */}
             <img src={Logo} alt="Logo" className="w-8 h-8 rounded-lg" />
-            </div>
+            {/* </div> */}
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">

@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 import "./api/interceptor.js";
+import { AuthProvider } from "./context/AuthProvider.jsx";
 
 // import { getMessaging, onMessage } from "firebase/messaging";
 // import { toast } from 'react-toastify'; // Or any alert system
@@ -13,7 +14,7 @@ import "./api/interceptor.js";
 // // This is the missing link!
 // onMessage(messaging, (payload) => {
 //   console.log('Message received in Foreground: ', payload);
-  
+
 //   // Option 1: Show a Browser Notification manually (even if tab is open)
 //   // Note: Some browsers still block this if the tab is focused
 //   if (Notification.permission === 'granted') {
@@ -28,7 +29,6 @@ import "./api/interceptor.js";
 //   toast.success(`${payload.notification.title}: ${payload.notification.body}`);
 // });
 
-
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
@@ -42,12 +42,16 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-navigator.serviceWorker.ready.then(r => console.log("pushManager:", r.pushManager));
+navigator.serviceWorker.ready.then((r) =>
+  console.log("pushManager:", r.pushManager)
+);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>
 );
